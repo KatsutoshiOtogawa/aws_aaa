@@ -84,7 +84,7 @@ jobs:
         # Build a docker container and
         # push it to ECR so that it can
         # be deployed to ECS.
-        docker build -t $ECR_REGISTRY/forgithu:${{ steps.tag_format.outputs.tag }} .
+        docker build -t $ECR_REGISTRY/forgithub:${{ steps.tag_format.outputs.tag }} .
         docker push $ECR_REGISTRY/forgithub:${{ steps.tag_format.outputs.tag }}
         echo "::set-output name=image::$ECR_REGISTRY/forgithub:${{ steps.tag_format.outputs.tag }}"
 
