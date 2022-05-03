@@ -76,7 +76,7 @@ jobs:
           TZ: 'Asia/Tokyo'
       run: echo "::set-output name=tag::$(date +${TAG_FORMAT})$(echo ${{ github.sha }} | cut -b 1-8)"
 
-    - name: Build, tag, and push image to Amazon ECR
+    - name: Docker build Build, tag
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -84,10 +84,11 @@ jobs:
         # Build a docker container and
         # push it to ECR so that it can
         # be deployed to ECS.
-        docker build -t $ECR_REGISTRY/forgithub:${{ steps.tag_format.outputs.tag }} .
-        docker push $ECR_REGISTRY/forgithub:${{ steps.tag_format.outputs.tag }}
-        echo "::set-output name=image::$ECR_REGISTRY/forgithub:${{ steps.tag_format.outputs.tag }}"
-
+        docker build . --file Dockerfile -t $ECR_REGISTRY/forgithub/aaa:${{ steps.tag_format.outputs.tag }}
+        echo "::set-output name=image::$ECR_REGISTRY/forgithub/aaa:${{ steps.tag_format.outputs.tag }}"
+      
+    - name: 'push image to Amazon ECR'
+      run: docker push $ECR_REGISTRY/forgithub/aaa:${{ steps.tag_format.outputs.tag }}
     # - name: Fill in the new image ID in the Amazon ECS task definition
     #   id: task-def
     #   uses: aws-actions/amazon-ecs-render-task-definition@v1
