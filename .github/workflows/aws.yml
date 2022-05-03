@@ -84,14 +84,16 @@ jobs:
         # Build a docker container and
         # push it to ECR so that it can
         # be deployed to ECS.
-        public.ecr.aws/n4z3o0a3/forgithub
-        docker build . --file Dockerfile -t $ECR_REGISTRY/privateforgithub/aaa:${{ steps.tag_format.outputs.tag }}
-        echo "::set-output name=image::$ECR_REGISTRY/privateforgithub/aaa:${{ steps.tag_format.outputs.tag }}"
+        # public.ecr.aws/n4z3o0a3/forgithub
+        docker build . --file Dockerfile -t public.ecr.aws/n4z3o0a3/forgithub/aaa:${{ steps.tag_format.outputs.tag }}
+        # docker build . --file Dockerfile -t $ECR_REGISTRY/forgithub/aaa:${{ steps.tag_format.outputs.tag }}
+        echo "::set-output name=image::public.ecr.aws/n4z3o0a3/forgithub/aaa:${{ steps.tag_format.outputs.tag }}"
+        # echo "::set-output name=image::$ECR_REGISTRY/forgithub/aaa:${{ steps.tag_format.outputs.tag }}"
       
     - name: 'push image to Amazon ECR'
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      run: docker push $ECR_REGISTRY/privateforgithub/aaa:${{ steps.tag_format.outputs.tag }}
+      run: docker push public.ecr.aws/n4z3o0a3/forgithub/aaa:${{ steps.tag_format.outputs.tag }}
     # - name: Fill in the new image ID in the Amazon ECS task definition
     #   id: task-def
     #   uses: aws-actions/amazon-ecs-render-task-definition@v1
