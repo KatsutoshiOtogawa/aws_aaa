@@ -86,7 +86,6 @@ jobs:
         # be deployed to ECS.
         public.ecr.aws/n4z3o0a3/forgithub
         docker build . --file Dockerfile -t public.ecr.aws/n4z3o0a3/forgithub/aaa:${{ steps.tag_format.outputs.tag }}
-        # docker build . --file Dockerfile -t $ECR_REGISTRY/forgithub/aaa:${{ steps.tag_format.outputs.tag }}
         echo "::set-output name=image::$ECR_REGISTRY/forgithub/aaa:${{ steps.tag_format.outputs.tag }}"
       
     - name: 'push image to Amazon ECR'
